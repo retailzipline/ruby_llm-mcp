@@ -7,6 +7,7 @@
 # - Docker mode allows connections from Docker bridge networks (172.17.0.1, etc.)
 # - Without Docker mode, only localhost connections are allowed for security
 
+require "set"
 require "bundler/setup"
 Bundler.require(:default)
 require "fast_mcp"
