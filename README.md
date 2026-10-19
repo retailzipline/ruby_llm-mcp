@@ -14,8 +14,9 @@ RubyLLM::MCP is a Ruby client for the [Model Context Protocol (MCP)](https://mod
 
 Use MCP tools, resources, and prompts from your RubyLLM chats over `stdio`, streamable HTTP, or SSE.
 
-Supports RubyLLM 1.9 and later, including RubyLLM 2.x. Tools return `MCP::Content` on
-RubyLLM 1.x and native strings or arrays of strings and attachments on RubyLLM 2.x.
+This is Zipline's temporary compatibility fork; see [bridge provenance and ownership](ZIPLINE_BRIDGE.md).
+Supports RubyLLM >= 1.9 and < 2.1. Tools return `MCP::Content` on
+RubyLLM 1.x and native strings or arrays of strings and attachments on RubyLLM 2.0.
 Resources still expose `MCP::Content` through `to_content`; use `resource.include(chat)`
 to add their text and attachments to a chat on either version.
 

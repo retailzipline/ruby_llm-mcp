@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "ruby_llm", ENV.fetch("RUBY_LLM_VERSION", "~> 1.9")
+gem "ruby_llm", ENV.fetch("RUBY_LLM_VERSION", "= 1.16.0")
 
 group :development do
   if RUBY_VERSION >= "3.1.0"

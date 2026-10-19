@@ -2,26 +2,32 @@ name: CICD
 
 on:
   push:
-    branches: [main]
+    branches: [main, zipline/rubyllm-2.0-bridge]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   ruby_llm_compatibility:
-    name: RubyLLM ${{ matrix.ruby_llm }} compatibility
+    name: RubyLLM ${{ matrix.ruby_llm }} on Ruby ${{ matrix.ruby }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby_llm: ["~> 1.9.0", "~> 1.0", "~> 2.0"]
+        ruby: ["3.4", "4.0"]
+        ruby_llm: ["= 1.16.0", "~> 2.0.0"]
     env:
       RUBY_LLM_VERSION: ${{ matrix.ruby_llm }}
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "4.0"
+          ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Check RubyLLM integration without external services
-        run: bundle exec rspec --options /dev/null spec/ruby_llm/mcp/ruby_llm_compatibility_spec.rb
+        run: >-
+          bundle exec rspec --options /dev/null
+          spec/ruby_llm/mcp/ruby_llm_compatibility_spec.rb
+          spec/ruby_llm/mcp/generate_response_spec.rb
+          spec/ruby_llm/mcp/prompt_arguments_spec.rb
 
   test:
     name: Ruby Tests
