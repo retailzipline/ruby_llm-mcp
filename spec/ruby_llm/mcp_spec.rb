@@ -5,6 +5,18 @@ RSpec.describe RubyLLM::MCP do
     expect(RubyLLM::MCP::VERSION).not_to be_nil
   end
 
+  it "loads on older Rubies without a Set autoload" do
+    lib_dir = File.expand_path("../../lib", __dir__)
+    source = <<~RUBY
+      Object.send(:remove_const, :Set) if Object.autoload?(:Set)
+      require "ruby_llm/mcp"
+    RUBY
+
+    _stdout, stderr, status = Open3.capture3(RbConfig.ruby, "-I", lib_dir, "-e", source)
+
+    expect(status).to be_success, stderr
+  end
+
   describe "#client" do
     it "calls RubyLLM::MCP::Client" do
       client = instance_double(RubyLLM::MCP::Client)
